@@ -3,9 +3,16 @@
             [compojure.route :as route]
             [clj-http.client :as client]
             [clojure.data.json :as json]
+            [emobot.links :as links]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
 
 (def hook-url (System/getenv "SLACK_HOOK_URL"))
+
+(defn link-to-slack
+  "Post random link to Slack hook url"
+  []
+  (let [e (rand-nth links/links)]
+    (post-to-slack hook-url {:text e})))
 
 (defn post-to-slack
 	"Post given string to our hook"
